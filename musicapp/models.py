@@ -12,7 +12,7 @@ class Artiste(models.Model):
         return self.first_name
 
 class Song (models.Model):
-    title = models.CharField(max_length = 100, blank=False, null = False)
+    title = models.CharField(max_length = 100, blank=False, null = False, unique = True)
     date_released = models.DateTimeField ()
     likes = models.IntegerField ()
     artiste_id = models.ForeignKey(Artiste, on_delete=models.CASCADE)
