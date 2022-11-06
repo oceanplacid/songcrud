@@ -1,11 +1,16 @@
 from rest_framework import serializers
+from musicapp.models import Artiste, Song, Lyrics
 from datetime import datetime
+
 
 class ArtisteSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only = True)
     first_name = serializers.CharField()
     last_name = serializers.CharField()
     age = serializers.IntegerField()
+    
+    def create(self, validated_data):
+        return Artiste.objects.create(**validated_data)
     
 class SongSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only = True)

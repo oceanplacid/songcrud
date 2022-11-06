@@ -5,12 +5,22 @@ from musicapp.API.serializers import ArtisteSerializer, SongSerializer, LyricsSe
 from django.template.context_processors import request
 
 
-@api_view()
+@api_view(['GET', 'POST'])
 def artiste_list (request):
-    artiste = Artiste.objects.all()
-    artiste_serializer = ArtisteSerializer(artiste, many=True)
-    return Response(artiste_serializer.data)
+    if request.method == 'GET':
     
+        artiste = Artiste.objects.all()
+        artiste_serializer = ArtisteSerializer(artiste, many=True)
+        return Response(artiste_serializer.data)
+    
+    if request.method == 'POST':
+        artiste_serializer = ArtisteSerializer(data=request.data)
+        if artiste_serializer.is_valid():
+            artiste_serializer.save()
+            return Response(artiste_serializer.data)
+        else:
+            return Response(artiste_serializer.errors)
+        
 @api_view()    
 def song_details (request, pk):
     song = Song.objects.get(pk=pk)
